@@ -1,41 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expense Tracker</title>
+  <meta name="description" content="Track income and spending by category. Data stays in your browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Expense Tracker</h1>
-
-        <div id="balance-container">
-            <h2>Your Balance</h2>
-            <p id="balance">$0.00</p>
-        </div>
-
-        <div id="summary">
-            <div>
-                <h3>Income</h3>
-                <p id="income" class="money plus">+$0.00</p>
-            </div>
-            <div>
-                <h3>Expenses</h3>
-                <p id="expense" class="money minus">-$0.00</p>
-            </div>
-        </div>
-
-        <h3>Add New Transaction</h3>
-        <form id="transaction-form">
-            <input type="text" id="text" placeholder="Enter description" required>
-            <input type="number" id="amount" placeholder="Enter amount (e.g. -20 or 100)" required>
-            <button type="submit">Add Transaction</button>
-        </form>
-
-        <h3>History</h3>
-        <ul id="transaction-list" class="list"></ul>
+  <header class="band">
+    <div class="wrap">
+      <p class="app-name">Expense Tracker</p>
+      <p class="balance-label">Balance</p>
+      <p id="balance" class="balance">$0.00</p>
+      <div class="totals">
+        <p>Income <strong id="income">$0.00</strong></p>
+        <p>Spent <strong id="expense">$0.00</strong></p>
+      </div>
     </div>
+  </header>
 
-    <script src="script.js"></script>
+  <main class="wrap layout">
+    <section class="card add" aria-labelledby="add-title">
+      <h2 id="add-title">Add a transaction</h2>
+      <form id="form" novalidate>
+        <div class="type" role="radiogroup" aria-label="Type">
+          <label><input type="radio" name="type" value="expense" checked><span>Expense</span></label>
+          <label><input type="radio" name="type" value="income"><span>Income</span></label>
+        </div>
+
+        <label class="field">
+          <span>Description</span>
+          <input id="text" type="text" placeholder="Groceries, paycheck…" maxlength="60" autocomplete="off">
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span>Amount</span>
+            <input id="amount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00">
+          </label>
+          <label class="field">
+            <span>Date</span>
+            <input id="date" type="date">
+          </label>
+        </div>
+
+        <label class="field" id="category-field">
+          <span>Category</span>
+          <select id="category">
+            <option>Food</option>
+            <option>Housing</option>
+            <option>Transport</option>
+            <option>Fun</option>
+            <option>School</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        <p id="error" class="error" role="alert"></p>
+        <button class="btn" type="submit">Add transaction</button>
+      </form>
+    </section>
+
+    <section class="card history" aria-labelledby="history-title">
+      <div class="history-head">
+        <h2 id="history-title">History</h2>
+        <span id="count" class="count"></span>
+      </div>
+
+      <div id="breakdown" class="breakdown" hidden>
+        <div id="breakdown-bar" class="breakdown-bar" role="img"></div>
+        <ul id="breakdown-legend" class="breakdown-legend"></ul>
+      </div>
+
+      <ul id="list" class="list"></ul>
+      <p id="empty" class="empty">No transactions yet. Add your first one to see your balance and where your money goes.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
